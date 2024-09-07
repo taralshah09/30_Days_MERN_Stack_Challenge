@@ -30,3 +30,14 @@ The backend provides the following RESTful API endpoints:
 - **Tech Stack**: Outlines the technologies used in the project.
 - **Project Structure**: Gives a visual overview of the folder structure.
 - **API Endpoints**: Describes the backend routes.
+
+### Snapshots of the Project:
+![image](https://github.com/user-attachments/assets/f1395309-dd09-482a-8e75-5d35513749f5)
+![image](https://github.com/user-attachments/assets/82382c27-36d4-43d5-8137-09ffe6dded50)
+![image](https://github.com/user-attachments/assets/0d4e0d11-df3e-42bb-9556-c374f6633e7f)
+![image](https://github.com/user-attachments/assets/c7dae94c-3f61-402a-b895-87b2cf88d91c)
+![image](https://github.com/user-attachments/assets/b4fe8393-cc46-435c-ba8b-e5a7ad17e7ab)
+
+
+
+
