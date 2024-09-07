@@ -1,68 +1,384 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+* {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif;
+}
+
+:root {
+  --primary-color: #048ba8;
+  --trash-color: red;
+  --info-color: rgb(16, 151, 16);
+  --update-color: rgb(235, 207, 28);
+}
+.home-container {
   min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.home-container nav {
+  display: flex;
+  padding: 10px 15px;
+  background: var(--primary-color);
+  color: white;
+  align-items: center;
+  justify-content: space-between;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+.home-container nav button {
+  width: 100px;
+  padding: 5px 0;
+  border-radius: 5px;
+  border: 0;
+  outline: 0;
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+.home-container nav button:hover {
+  opacity: 0.8;
+}
+.home-container nav button .link {
+  color: var(--primary-color);
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  text-decoration: none;
+  font-size: 16px;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.home-container nav button i {
+  margin-right: 10px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Books container */
+.books-container {
+  padding: 25px;
+}
+/* Table container */
+.table-container {
+  width: 100%;
+  margin: 20px 0;
+  overflow-x: auto; /* Helps with responsiveness */
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Table headings */
+thead th {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Table rows and cells */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Table icons */
+.fa-circle-info {
+  color: var(--info-color);
+}
+
+.fa-trash {
+  color: var(--trash-color);
+}
+
+.fa-pen-to-square {
+  color: var(--update-color);
+}
+
+/* Hover effect on icons */
+.fa-circle-info:hover,
+.fa-trash:hover,
+.fa-pen-to-square:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* Add page */
+.add-page-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.add-page-container nav {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+.add-page-container nav a {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+.add-page-container nav a i {
+  margin-top: 2.5px;
+}
+
+.add-page-container .form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.add-page-container .form-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 15px;
+  width: 500px;
+  padding: 40px 25px;
+  border-radius: 5px;
+  box-shadow: 0 2px 15px rgb(4, 139, 168, 0.5);
+}
+.add-page-container .form-container form h1 {
+  color: var(--primary-color);
+}
+.add-page-container .form-container input {
+  padding: 8px 15px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+  outline: 0;
+  font-size: 16px;
+}
+.add-page-container .form-container button {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: white;
+  background: var(--primary-color);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* Info Page */
+.info-page-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.info-page-container nav {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+.info-page-container nav a {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+.info-page-container nav a i {
+  margin-top: 2.5px;
+}
+
+.info-page-container .info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.info-page-container .info-box .info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 15px;
+  width: 500px;
+  padding: 40px 25px;
+  border-radius: 5px;
+  box-shadow: 0 2px 15px rgb(4, 139, 168, 0.5);
+}
+.info-page-container .info-box .info h1 {
+  color: var(--primary-color);
+}
+.info-page-container .info-box input {
+  padding: 8px 15px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+  outline: 0;
+  font-size: 16px;
+}
+.info-page-container .info-box button {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: white;
+  background: var(--primary-color);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* Delete Page */
+.delete-page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+.delete-page-container nav {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+.delete-page-container nav a {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+.delete-page-container nav a i {
+  margin-top: 2.5px;
+}
+
+.delete-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.delete-container .delete-box {
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-start; */
+  justify-content: center;
+  gap: 15px;
+  width: 500px;
+  padding: 40px 25px;
+  border-radius: 5px;
+  box-shadow: 0 2px 15px rgb(4, 139, 168, 0.5);
+}
+
+.delete-container .delete-box p {
+  font-size: 20px;
+}
+
+.delete-container .delete-box p span {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+.delete-container .delete-box button {
+  font-size: 18px;
+  font-weight: 600;
+  background: var(--primary-color);
+  color: white;
+  width: 100%;
+  padding: 5px 15px;
+  border: 0;
+  outline: 0;
+  border-radius: 5px;
+}
+
+/* Update page */
+.update-page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+.update-page-container nav {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+.update-page-container nav a {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+.update-page-container nav a i {
+  margin-top: 2.5px;
+}
+
+.update-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.update-container form {
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-start; */
+  justify-content: center;
+  gap: 15px;
+  width: 500px;
+  padding: 40px 25px;
+  border-radius: 5px;
+  box-shadow: 0 2px 15px rgb(4, 139, 168, 0.5);
+}
+
+.update-container form h1 span {
+  color: var(--primary-color);
+}
+
+.update-container form h1 {
+  color: var(--primary-color);
+}
+.update-container input {
+  padding: 8px 15px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+  outline: 0;
+  font-size: 16px;
+}
+.update-container button {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: white;
+  background: var(--primary-color);
+  font-weight: 500;
+  font-size: 16px;
 }
