@@ -55,7 +55,7 @@ The goal is to cover a new topic or build a new feature each day, pushing forwar
 
 If you're on a similar journey or just want to chat about the MERN stack, feel free to connect:
 
-- **LinkedIn:** [Your LinkedIn](https://www.linkedin.com/in/taralshah09)
+- **LinkedIn:** [taralshah9](www.linkedin.com/in/taralshah9)
 
 ---
 
