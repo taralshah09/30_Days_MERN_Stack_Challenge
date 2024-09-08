@@ -15,3 +15,8 @@ A full-stack Todo application built using the MERN stack (MongoDB, Express, Reac
 - **Frontend**: React, Axios
 - **Backend**: Node.js, Express, MongoDB, Mongoose
 - **Authentication**: JWT (JSON Web Tokens)
+
+## Snapshots of the project
+![image](https://github.com/user-attachments/assets/8f595fad-446a-4379-b88b-5ba5154d98f1)
+![image](https://github.com/user-attachments/assets/4e1306dd-7106-44e8-b6e3-267a2396b2f0)
+![image](https://github.com/user-attachments/assets/a0c5bd54-f90e-4d37-b600-1bf1f68d4ddd)
