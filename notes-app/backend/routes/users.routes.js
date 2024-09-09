@@ -7,6 +7,11 @@ import bcrypt from "bcryptjs";
 
 const router = express.Router();
 
+router.get("/",async(req,res)=>{
+  const users = await Users.find()
+  res.status(200).json({users:users})
+})
+
 // REGISTER -> POST /users/register
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
