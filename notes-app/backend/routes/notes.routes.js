@@ -6,8 +6,15 @@ const router = express.Router();
 
 // GET : / -> This will be a personalised fetch call to the server
 router.get("/", auth, async (req, res) => {
-  const notes = await Notes.find({ user: req.id });
-  res.status(200).json({ message: "Authorised path", notes: notes });
+  try {
+    const notes = await Notes.find({ user: req.id }); // Moved inside the try block
+    if (!notes || notes.length === 0) { // Updated condition to handle empty array
+      return res.status(400).json({ message: "Notes don't exist" });
+    }
+    return res.status(200).json({ message: "Authorized path", notes: notes ,user :req.name});
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 // POST : /
@@ -42,7 +49,11 @@ router.put("/:id", auth, async (req, res) => {
   const { title, content, tags } = req.body;
 
   try {
-    const note = await Notes.findOneAndUpdate({ _id: id, user },{ title, content, tags, user },{ new: true, runValidators: true });
+    const note = await Notes.findOneAndUpdate(
+      { _id: id, user },
+      { title, content, tags, user },
+      { new: true, runValidators: true }
+    );
 
     if (!note) {
       return res.status(400).json("Note not found!");
@@ -51,40 +62,40 @@ router.put("/:id", auth, async (req, res) => {
       .status(200)
       .json({ message: "Note updated successfully", note: note });
   } catch (error) {
-    console.log("Error : " + error.message)
+    console.log("Error : " + error.message);
     return res
       .status(500)
       .json({ message: "Something went wrong, failed to update the note!" });
   }
 });
 
+// DELETE /:id
+router.delete("/:id", auth, async (req, res) => {
+  const { id } = req.params;
 
-// DELETE /:id 
-router.delete("/:id",auth,async(req,res)=>{
-    const {id} = req.params;
-
-    if(!id){
-        return res.status(400).json("ID not fetched!");   
-    }
-    const user = req.id;
+  if (!id) {
+    return res.status(400).json("ID not fetched!");
+  }
+  const user = req.id;
   const { title, content, tags } = req.body;
 
   try {
-    const note = await Notes.findOneAndDelete({ _id: id, user },{ title, content, tags, user },{ new: true, runValidators: true });
+    const note = await Notes.findOneAndDelete(
+      { _id: id, user },
+      { title, content, tags, user },
+      { new: true, runValidators: true }
+    );
 
     if (!note) {
       return res.status(400).json("Note not found!");
     }
-    return res
-      .status(200)
-      .json({ message: "Note deleted successfully"});
+    return res.status(200).json({ message: "Note deleted successfully" });
   } catch (error) {
-    console.log("Error : " + error.message)
+    console.log("Error : " + error.message);
     return res
       .status(500)
-      .json({ message: "Something went wrong, failed to update the note!" });
+      .json({ message: "Something went wrong, failed to delete the note!" });
   }
-})
-
+});
 
 export { router };

@@ -1,0 +1,36 @@
+:root{
+    --primary-color : rgb(94, 159, 245);
+}
+
+.note{
+    width: 450px;
+    height: 175px;
+    margin-right: 30px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 15px;
+    color: #6b6a6a;
+}
+
+.note h2{
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+.note .other-details{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.note .other-details .btns-box{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    color: var(--primary-color);
+}

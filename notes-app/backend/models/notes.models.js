@@ -18,6 +18,13 @@ const notesSchema = new mongoose.Schema(
     tags: {
       type: [String],
       required: true,
+      validate: {
+        validator: function (tags) {
+          // Ensure there are no duplicate tags
+          return tags.length === new Set(tags).size;
+        },
+        message: "Tags must be unique."
+      },
     },
 
     user: {
@@ -28,5 +35,11 @@ const notesSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Pre-save middleware to ensure unique tags
+notesSchema.pre("save", function (next) {
+  this.tags = [...new Set(this.tags)]; // Remove duplicates
+  next();
+});
 
 export const Notes = mongoose.model("Notes", notesSchema);

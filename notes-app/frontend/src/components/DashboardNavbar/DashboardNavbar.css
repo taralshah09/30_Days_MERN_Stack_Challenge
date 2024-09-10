@@ -1,0 +1,30 @@
+:root{
+    --text-dark : #333;
+}
+
+.navbar{
+    width: 100%;
+    padding: 10px 15px;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow:  0 2px 5px rgba(0,0,0,0.3);
+}
+.navbar .search-bar{
+    width: 500px;
+    border: 1px solid;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    border-radius: 25px;
+    background: rgb(214, 214, 246);
+}
+.navbar .search-bar input{
+    flex: 1;
+    background: none;
+    outline: 0;
+    border: 0;
+    padding: 5px 10px;
+}
