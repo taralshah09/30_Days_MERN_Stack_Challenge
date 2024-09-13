@@ -28,15 +28,4 @@ const uploadOnCloud = async (localfilepath) => {
   }
 };
 
-// const uploadResult = await cloudinary.uploader
-//   .upload(
-//     "https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg",
-//     {
-//       public_id: "shoes",
-//     }
-//   )
-//   .catch((error) => {
-//     console.log(error);
-//   });
-
-console.log(uploadResult);
+export {uploadOnCloud};

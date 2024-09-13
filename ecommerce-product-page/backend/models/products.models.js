@@ -32,15 +32,16 @@ const productSchema = new mongoose.Schema({
     maxlength: 1000,
   },
   category: {
-    type: [String], 
+    type: [String],
     required: true,
   },
   productImages: {
-    type: [String], 
-    required: true,
+    type: [String],
+    default: [],
+    // required: true,
   },
   coverImage: {
-    type: String, 
+    type: String,
     required: true,
   },
 });
