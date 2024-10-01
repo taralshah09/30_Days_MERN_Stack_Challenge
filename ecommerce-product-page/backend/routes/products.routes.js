@@ -7,32 +7,40 @@ const router = express.Router();
 
 // Test route to check if the server is working fine
 router.get("/", async (req, res) => {
-  const products = await Product.find()
-  res.status(200).json({ message: "Here are all the products", products:products });
+  const products = await Product.find();
+  res
+    .status(200)
+    .json({ message: "Here are all the products", products: products });
+});
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  res
+    .status(200)
+    .json({ message: `Here is the product with id ${id}`, product: product });
 });
 
 // POST route to upload cover image and create a product
 router.post(
   "/upload",
-  upload.fields([
-    { name: "coverImage", maxCount: 1 }, 
-  ]),
+  upload.fields([{ name: "thumbnail", maxCount: 1 }]),
   async (req, res) => {
     const { title, price, ratings, description, category } = req.body;
 
     console.log("Files:", req.files);
 
-    const coverImage = req.files.coverImage ? req.files.coverImage[0] : null;
+    const thumbnail = req.files.thumbnail ? req.files.thumbnail[0] : null;
 
-    res.json(coverImage);
+    res.json(thumbnail);
 
-    const coverImagePath = coverImage.path;
-    const cloudinaryResponse = await uploadOnCloud(coverImagePath);
+    const thumbnailPath = thumbnail.path;
+    const cloudinaryResponse = await uploadOnCloud(thumbnailPath);
 
-    if (!coverImage) {
+    if (!thumbnail) {
       return res.status(400).json({
         message: "Cover Image not uploaded!",
-        files: req.files, 
+        files: req.files,
       });
     }
 
@@ -42,7 +50,7 @@ router.post(
       ratings,
       description,
       category,
-      coverImage: cloudinaryResponse.url, // Save cover image path of cloudinary
+      thumbnail: cloudinaryResponse.url, // Save cover image path of cloudinary
     });
 
     if (!product) {
@@ -58,18 +66,20 @@ router.post(
 
 // PATCH route to upload and update product images
 router.patch(
-  "/upload/productImages",
+  "/upload/images",
   upload.fields([
-    { name: "productImages", maxCount: 5 }, // Handle multiple product images
+    { name: "images", maxCount: 5 }, // Handle multiple product images
   ]),
   async (req, res) => {
     const { productId } = req.body; // Assume productId is passed in the body
 
     console.log("Files:", req.files);
 
-    const productImages = req.files.productImages ? req.files.productImages : [];
+    const images = req.files.images
+      ? req.files.images
+      : [];
 
-    if (productImages.length === 0) {
+    if (images.length === 0) {
       return res.status(400).json({
         message: "Product Images not uploaded!",
         files: req.files,
@@ -85,7 +95,7 @@ router.patch(
 
     // Upload images to Cloudinary and collect the URLs
     const cloudinaryUrls = [];
-    for (const img of productImages) {
+    for (const img of images) {
       const cloudinaryResponse = await uploadOnCloud(img.path);
       if (cloudinaryResponse) {
         cloudinaryUrls.push(cloudinaryResponse.url);
@@ -93,7 +103,7 @@ router.patch(
     }
 
     // Update product images with Cloudinary URLs
-    product.productImages = cloudinaryUrls;
+    product.images = cloudinaryUrls;
 
     // Save the updated product
     await product.save();
