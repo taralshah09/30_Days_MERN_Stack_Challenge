@@ -32,6 +32,7 @@ Contributions are welcome! If you have suggestions for improvements or features,
 ## SnapShots
 ![image](https://github.com/user-attachments/assets/2b546b73-75c0-4690-9f03-2002c68c24b2)
 ![image](https://github.com/user-attachments/assets/326b8e8e-049a-4c8f-8b6e-7e9124b35965)
-![image](https://github.com/user-attachments/assets/77d11b94-a6b3-4941-a2b6-acb654639fa0)
+![image](https://github.com/user-attachments/assets/477b1394-3ce6-4b9d-8084-ef9f48edbdc3)
+
 
 
