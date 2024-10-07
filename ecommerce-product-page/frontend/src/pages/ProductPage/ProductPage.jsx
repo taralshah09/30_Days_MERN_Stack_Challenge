@@ -70,7 +70,7 @@ const ProductPage = () => {
         </div>
         <div className="details-section">
           <h2>{product.title}</h2>
-          <p className="price">${product.price}</p>
+          <p className="price">{product.price}</p>
           <p className="desc">{product.description}</p>
           <button>Add to Cart</button>
         </div>

@@ -36,7 +36,6 @@ const ProductsFeed = () => {
             <Link to={`product/${product._id}`} className="product-link">
               <div key={product.id || Math.random()} className="product">
                 <div className="img-box">
-                  {/* <img src={product.images[0]==="https://cdn.dummyjson.com/products/images/beauty/Revlon%20Super%20Lustrous%20Lipstick/1.png" ? './public.webp' : product.images[0]} alt={product.title} /> */}
                   <img
                     src={
                       notWantedThumbnails.includes(product.images[0])
