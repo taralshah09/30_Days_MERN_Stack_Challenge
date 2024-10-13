@@ -1,0 +1,14 @@
+.skeleton {
+    background: linear-gradient(135deg, #3a3a3a 25%, #5a5a5a 50%, #4a4a4a 75%); /* Diagonal gradient (135deg) with dark theme colors */
+    background-size: 200% 100%;
+    animation: shimmer 1s ease-in-out infinite; /* Adjusted speed for dark theme */
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
