@@ -10,15 +10,17 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchBlogs = async () => {
-            await axios.get("http://localhost:3000/api/blogs/all-blogs")
-                .then((res) => {
-                    setBlogs(res.data)
-                })
-                .catch((err) => console.log(err))
-        }
+            try {
+                const { data } = await axios.get("http://localhost:3000/api/blogs/all-blogs");
+                console.log(data); // Logs the fetched blogs
+                setBlogs(data); // Update state with fetched blogs
+            } catch (error) {
+                console.error("Error fetching blogs:", error.message);
+            }
+        };
 
-        fetchBlogs()
-    }, [])
+        fetchBlogs();
+    }, []);
 
     return (
         <AuthContext.Provider value={{ blogs }}>{children}</AuthContext.Provider>
