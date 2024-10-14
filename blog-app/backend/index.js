@@ -3,7 +3,7 @@ import { configDotenv } from "dotenv";
 configDotenv();
 import mongoose from "mongoose";
 import { router as userRouter } from "./routes/user.routes.js";
-import { router as blogRouter} from "./routes/blog.routes.js";
+import { router as blogRouter } from "./routes/blog.routes.js";
 import fileUpload from "express-fileupload";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
@@ -20,11 +20,13 @@ const PORT = process.env.PORT;
 // In-built Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser())
+app.use(cookieParser());
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // Frontend URL
-    credentials: true, // Allow credentials to be sent
+    origin:process.env.FRONTEND_URL, // Exact frontend origin
+    credentials: true, // Allow credentials (cookies, etc.)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow necessary methods
   })
 );
 

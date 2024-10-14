@@ -1,6 +1,8 @@
 import { configDotenv } from "dotenv";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.models.js";
+import mongoose from "mongoose";
+
 configDotenv();
 // Authentication Middleware
 export const isAuthenticated = async (req, res, next) => {

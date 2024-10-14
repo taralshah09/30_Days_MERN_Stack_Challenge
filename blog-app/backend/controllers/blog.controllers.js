@@ -1,6 +1,7 @@
 import { Blog } from "../models/blog.models.js";
 import { v2 as cloudinary } from "cloudinary";
 import { User } from "../models/user.models.js";
+import mongoose from "mongoose";
 
 export const createBlog = async (req, res) => {
   try {
