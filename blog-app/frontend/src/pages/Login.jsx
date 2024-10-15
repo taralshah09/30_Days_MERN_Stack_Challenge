@@ -27,7 +27,7 @@ const Login = () => {
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/form-data",
           },
         }
       );

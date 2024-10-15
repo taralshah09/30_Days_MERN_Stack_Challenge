@@ -59,8 +59,9 @@ const Register = () => {
       setPassword("");
       setPhoto(""); 
       setPhotoPreview("");
+
+      navigateTo("/login")
   
-      
   
     } catch (error) {
       console.error("Registration failed:", error.response?.data || error.message);

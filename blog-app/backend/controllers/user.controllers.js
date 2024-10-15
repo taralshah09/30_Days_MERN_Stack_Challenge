@@ -102,7 +102,7 @@ export const login = async (req, res) => {
 
     let token = await createTokenAndSaveCookies(user._id, res);
     console.log("Login: ", token);
-    res.status(200).json({
+    return res.status(200).json({
       message: "User logged in successfully",
       user: {
         _id: user._id,
@@ -112,10 +112,10 @@ export const login = async (req, res) => {
       },
       token: token,
     });
-
-    return res.status(200).json({ message: "User logged in", user });
   } catch (error) {
-    return res.status(501).json({ message: "Internal server error!",error:error.message });
+    return res
+      .status(501)
+      .json({ message: "Internal server error!", error: error.message });
   }
 };
 

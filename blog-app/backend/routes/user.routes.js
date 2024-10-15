@@ -16,5 +16,6 @@ router.post("/logout", isAuthenticated, logout);
 
 //
 router.get("/my-profile", isAuthenticated, getMyProfile);
-router.get("/admins", getAdmins);
+// router.get("/admins", isAuthenticated,getAdmins);
+router.get("/admins",getAdmins);
 export { router };

@@ -10,16 +10,24 @@ import Dashboard from "../src/pages/Dashboard"
 import Register from "../src/pages/Register"
 import Login from "../src/pages/Login"
 import { useAuth } from "./Context/AuthProvider"
+import { Toaster } from 'react-hot-toast';
+import UpdateBlog from "./dashboard/UpdateBlog"
+import Details from "./pages/Details"
+
 
 function App() {
   const location = useLocation()
   const hideNavbarAndFooter = ["/dashboard", "/login", "/register"].includes(location.pathname);
-  const {blogs} = useAuth()
+  const { blogs } = useAuth()
   console.log(blogs)
+
   return (
     <>
       {!hideNavbarAndFooter && <Navbar />}
-
+      <Toaster
+        position="top-center" // You can change the position here
+        reverseOrder={false} // Optional, adjust toast order
+      />
       {/* Defining routes in here */}
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -28,6 +36,9 @@ function App() {
         <Route path="/blogs" element={<Blogs />}></Route>
         <Route path="/creators" element={<Creators />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/blog/update/:id" element={<UpdateBlog/>}></Route>
+        <Route path="/blog/:id" element={<Details/>}></Route>
+
 
         {/* ---------------------------------------------------- */}
         <Route path="/register" element={<Register />}></Route>

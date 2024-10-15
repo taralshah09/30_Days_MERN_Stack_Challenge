@@ -3,11 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoCloseSharp } from "react-icons/io5";
+import { useAuth } from '../context/AuthProvider';
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
-
+  const { profile, isAuthenticated } = useAuth()
   const logOut = async () => {
     try {
       await axios.post("http://localhost:3000/api/users/logout", {}, { withCredentials: true });
@@ -36,9 +37,13 @@ const Navbar = () => {
 
         {/* Action Buttons (Desktop Only) */}
         <div className="hidden md:flex space-x-6">
-          <Link to="/dashboard">
-            <button className="bg-blue-400 text-white font-semibold px-2 py-1 rounded-md">Dashboard</button>
-          </Link>
+          {
+            profile?.role === "admin" && isAuthenticated ?
+              <Link to="/dashboard">
+                <button className="bg-blue-400 text-white font-semibold px-2 py-1 rounded-md">Dashboard</button>
+              </Link>
+              : ""
+          }
           <button
             className="bg-red-500 text-white font-semibold px-2 py-1 rounded-md"
             onClick={logOut}
@@ -61,7 +66,12 @@ const Navbar = () => {
             <Link to="/blogs" className="nav-link" onClick={() => setShow(false)} smooth="true" duration={500} offset={-70}>Blogs</Link>
             <Link to="/creators" className="nav-link" onClick={() => setShow(false)} smooth="true" duration={500} offset={-70}>Creators</Link>
             <Link to="/contact" className="nav-link" onClick={() => setShow(false)} smooth="true" duration={500} offset={-70}>Contact</Link>
-            <Link to="/dashboard" className="nav-link" onClick={() => setShow(false)} smooth="true" duration={500} offset={-70}>Dashboard</Link>
+
+            {
+              profile?.role === "admin" && isAuthenticated ?
+                <Link to="/dashboard" className="nav-link" onClick={() => setShow(false)} smooth="true" duration={500} offset={-70}>Dashboard</Link>
+                : ""
+            }
             <button
               className="bg-red-500 text-white font-semibold px-2 py-1 rounded-md"
               onClick={() => {
