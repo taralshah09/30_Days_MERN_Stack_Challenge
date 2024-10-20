@@ -9,7 +9,6 @@ const Navbar = () => {
     const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
     const navigate = useNavigate()
 
-
     const handleLogout = async () => {
         try {
             const res = await fetch("http://localhost:5000/auth/logout", {
