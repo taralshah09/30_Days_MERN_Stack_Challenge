@@ -6,6 +6,7 @@ import cors from "cors";
 import passport from "passport";
 import "./passport/auth.js";
 import { router as authRouter } from "./routes/auth.routes.js";
+import { router as transactionRouter } from "./routes/transaction.routes.js";
 import session from "express-session";
 
 const app = express();
@@ -42,6 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRouter);
+app.use("/transaction", transactionRouter);
 
 // Route for Google OAuth success redirect
 app.get("/auth/google/success", (req, res) => {
