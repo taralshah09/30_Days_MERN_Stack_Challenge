@@ -1,0 +1,184 @@
+.home-page {
+    display: flex;
+    width: 100%;
+    height: 85vh; /* Controls the height of the main container */
+    margin: 20px 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    height: 100%; /* Fill the remaining vertical space */
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Enable vertical scrolling */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #ccc transparent; /* Custom scrollbar color */
+}
+
+.posts-container::-webkit-scrollbar {
+    display: none;
+}
+
+.posts-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.posts-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+.post {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid blueviolet;
+}
+
+.profile-name {
+    font-weight: bold;
+}
+
+.post-image-container {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.post-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.post-caption {
+    font-size: 14px;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+}
+
+.action-btn:hover .icon {
+    color: #e63946;
+}
+
+.icon {
+    font-size: 24px;
+}
+.comments-box {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.view-all-comments {
+    color: #999;
+    cursor: pointer;
+    margin-bottom: 5px;
+    text-decoration: underline; /* Underline to indicate it’s clickable */
+}
+
+.comment {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center vertically */
+    margin-top: 5px;
+    padding: 8px; /* Add padding */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background for comments */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.comment-author-picture {
+    width: 32px; /* Set a fixed width */
+    height: 32px; /* Set a fixed height */
+    border-radius: 50%; /* Circular profile picture */
+    margin-right: 10px; /* Space between picture and text */
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #333; /* Darker color for author */
+    margin-right: 15px;
+}
+
+.comment p {
+    margin: 0; /* Remove default margin */
+}
+
+.no-comments {
+    color: #999;
+    text-align: left; /* Center align no comments message */
+    margin: 10px 0; /* Space above */
+    left: 15px;
+}
+
+.add-comment {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    border-top: 1px solid #ddd; /* Separator line */
+    padding-top: 10px; /* Space above input */
+}
+
+.comment-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: border-color 0.3s; /* Smooth transition for focus effect */
+}
+
+.comment-input:focus {
+    outline: none; /* Remove default outline */
+    border-color: blueviolet; /* Change border color on focus */
+}
+
+.post-comment-btn {
+    background: blueviolet;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px; /* More rounded for consistency */
+    font-weight: 500;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.post-comment-btn:hover {
+    background-color: #8a2be2; /* Darker shade on hover */
+}

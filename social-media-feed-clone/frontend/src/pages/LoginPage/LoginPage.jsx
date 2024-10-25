@@ -11,9 +11,9 @@ const LoginPage = () => {
   
     return (
       <div className='h-screen w-full bg-gray-50 flex items-center justify-center'>
-        <div className="w-full sm:w-[400px] p-8 bg-white border border-gray-300 shadow-lg rounded-lg flex flex-col items-center justify-center space-y-6">
-          <h2 className="text-3xl font-semibold text-gray-800 text-center">Create an Account</h2>
-          <h3 className='text-3xl text-center text-green-600 font-bold mt-4'>Expense Manager</h3>
+        <div className="w-full sm:w-[400px] p-8 bg-white border border-gray-300 shadow-lg rounded-xl flex flex-col items-center justify-center space-y-6">
+          <h2 className="text-3xl font-semibold text-gray-800 text-center">Login to Account</h2>
+          <h3 className='text-3xl text-center text-green-600 font-bold mt-4'>Social Media Clone</h3>
   
           <div className="space-y-4 w-full">
             {/* Add any additional form fields here if needed */}
