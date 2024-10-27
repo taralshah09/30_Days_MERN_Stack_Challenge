@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit";
+}
+
+.flex-1::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.flex-1 {
+  scrollbar-width: none;
+}
+
+/* General style for overflow */
+.flex-1 {
+  overflow-y: auto;
+}
+
+.chat-user-details{
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+}
+.chat-user-details p{
+  line-height: 20px;
+}
