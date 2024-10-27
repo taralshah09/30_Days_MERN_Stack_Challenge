@@ -4,6 +4,7 @@ configDotenv();
 import mongoose from "mongoose";
 import cors from "cors";
 import { router as userRouter } from "./routes/users.routes.js";
+import { router as messageRouter } from "./routes/messages.routes.js";
 import cookieParser from "cookie-parser";
 
 const PORT = process.env.PORT;
@@ -27,5 +28,6 @@ app.use(cookieParser());
 
 // Routes
 app.use("/users", userRouter);
+app.use("/messages", messageRouter);
 
 app.listen(PORT, () => console.log(`Server running on PORT : ${PORT}`));
