@@ -12,7 +12,7 @@ export const signUp = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ message: "User already registered!" });
+      return res.status(200).json({ message: "User already registered!" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -34,7 +34,7 @@ export const signUp = async (req, res) => {
     }
     return res
       .status(200)
-      .json({ message: "User registered successfully!", newUser });
+      .json({ message: "User registered successfully!", user: newUser });
   } catch (error) {
     return res.status(500).json({
       message: "Something went wrong, unable to register the user!",
