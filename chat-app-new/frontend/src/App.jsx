@@ -7,6 +7,7 @@ import { useAuth } from './context/AuthProvider'
 import Left from './home/LeftPart/Left'
 import Right from './home/RightPart/Right'
 import { Routes, Route, Navigate } from "react-router-dom"
+import Loading from './components/Loading'
 function App() {
   const [authUser, setAuthUser] = useAuth()
   console.log(authUser)
@@ -24,7 +25,7 @@ function App() {
         <Route path="/signup" element={authUser ? <Navigate to="/" /> : <Signup />}></Route>
         <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login />}></Route>
       </Routes>
-
+      {/* <Loading/> */}
     </>
   )
 }
