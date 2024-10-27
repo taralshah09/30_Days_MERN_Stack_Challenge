@@ -6,9 +6,10 @@ import cors from "cors";
 import { router as userRouter } from "./routes/users.routes.js";
 import { router as messageRouter } from "./routes/messages.routes.js";
 import cookieParser from "cookie-parser";
+import { app, server } from "./SocketIO/index.js";
 
 const PORT = process.env.PORT;
-const app = express();
+
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => console.log("DB connected"))
@@ -30,4 +31,4 @@ app.use(cookieParser());
 app.use("/users", userRouter);
 app.use("/messages", messageRouter);
 
-app.listen(PORT, () => console.log(`Server running on PORT : ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on PORT : ${PORT}`));

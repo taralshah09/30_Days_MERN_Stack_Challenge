@@ -17,7 +17,7 @@ const useSendMessage = () => {
             receiverId: selectedConversation._id,
             message: message,
           },
-          { withCredentials: true }
+          { withCredentials: true } 
         );
         setMessages([...messages, res.data]);
         setLoading(false);
