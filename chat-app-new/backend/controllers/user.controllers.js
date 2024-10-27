@@ -67,7 +67,7 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Something went wrong, unable to register the user!",
+      message: "Something went wrong, unable to login the user!",
       error,
     });
   }
@@ -85,7 +85,28 @@ export const logout = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Something went wrong, unable to register the user!",
+      message: "Something went wrong, unable to logout the user!",
+      error,
+    });
+  }
+};
+
+export const allUsers = async (req, res) => {
+  try {
+    const loggedInUser = req.user._id;
+    const users = await User.find({ _id: { $ne: loggedInUser } }).select(
+      "-password"
+    );
+    if (!users) {
+      return res.status(400).json({ message: "Unable to fetch all users" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Users fetched successfully!", users });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong, unable to fetch all the users!",
       error,
     });
   }

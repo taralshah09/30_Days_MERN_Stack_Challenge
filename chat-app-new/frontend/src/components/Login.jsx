@@ -1,9 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from "axios"
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider';
 
 
 const Login = () => {
+    const [authUser, setAuthUser] = useAuth()
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -17,9 +21,10 @@ const Login = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:3000/users/login", userInfo, { withCredentials: true })
+            const response = await axios.post("http://localhost:3000/users/login", userInfo, { withCredentials: true });
             localStorage.setItem("ChatApp", JSON.stringify(response.data));
-            alert(response.data.message)
+            setAuthUser(response.data);
+            navigate("/");
         } catch (error) {
             alert(error.message)
         }

@@ -2,8 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useAuth } from '../context/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+    const navigate = useNavigate();
     const [authUser, setAuthUser] = useAuth()
     const {
         register,
@@ -12,7 +14,7 @@ const Signup = () => {
         formState: { errors },
     } = useForm();
 
-
+    
     const onSubmit = async (data) => {
         const userInfo = {
             fullName: data.fullName,
@@ -27,7 +29,8 @@ const Signup = () => {
 
             localStorage.setItem("ChatApp", JSON.stringify(response.data));
             setAuthUser(response.data);
-            alert(response.data.message)
+            alert(response.data.message);
+            navigate("/");
         } catch (error) {
             alert(error.message)
         }

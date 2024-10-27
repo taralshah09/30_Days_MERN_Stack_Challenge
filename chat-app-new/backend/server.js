@@ -4,6 +4,7 @@ configDotenv();
 import mongoose from "mongoose";
 import cors from "cors";
 import { router as userRouter } from "./routes/users.routes.js";
+import cookieParser from "cookie-parser";
 
 const PORT = process.env.PORT;
 const app = express();
@@ -21,6 +22,8 @@ app.use(
     credentials: true,
   })
 );
+// In your server setup
+app.use(cookieParser());
 
 // Routes
 app.use("/users", userRouter);
