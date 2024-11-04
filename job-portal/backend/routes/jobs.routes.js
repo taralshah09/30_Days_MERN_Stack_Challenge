@@ -1,6 +1,6 @@
 import express from "express";
 import { checkAdmin, secureRoute } from "../middlewares/secureRoutes.js";
-import { createJobs } from "../controllers/jobs.controllers.js";
+import { createJobs, getJobs , editJobs, deleteJob} from "../controllers/jobs.controllers.js";
 
 const router = express.Router();
 
@@ -15,5 +15,8 @@ router.get("/dashboard", checkAdmin, (req, res) => {
 });
 
 router.post("/create", createJobs);
+router.get("/get", getJobs);
+router.patch("/edit/:id",editJobs);
+router.delete("/delete/:id",deleteJob);
 
 export { router };
