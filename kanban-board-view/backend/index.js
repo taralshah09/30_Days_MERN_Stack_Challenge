@@ -3,6 +3,9 @@ import { configDotenv } from "dotenv";
 configDotenv();
 import mongoose from "mongoose";
 import { router as userRouter } from "./routes/user.routes.js";
+import { router as tasksRouter } from "./routes/tasks.routes.js";
+import { router as boardsRouter } from "./routes/boards.routes.js";
+import { router as conversationRouter } from "./routes/conversation.routes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -27,6 +30,8 @@ app.use(
 
 // Routes
 app.use("/users", userRouter);
-
+app.use("/tasks", tasksRouter);
+app.use("/boards", boardsRouter);
+app.use("/conversations", conversationRouter);
 
 app.listen(PORT, () => console.log("Server running on PORT : " + PORT));

@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import mongoose  from "mongoose";
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
+    unique: true,
     required: true,
   },
   email: {
     type: String,
-    lowercase: true,
     unique: true,
     required: true,
   },
@@ -17,4 +17,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-export const User = new mongoose.model("User", userSchema);
+export const User = mongoose.model('User', userSchema);

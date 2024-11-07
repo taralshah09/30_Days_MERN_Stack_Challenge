@@ -72,3 +72,21 @@ export const logoutUser = async (req, res) => {
     });
   }
 };
+
+export const fetchAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    if (!users) {
+      return res.status(400).json({ message: "All users not found!" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "All users are fetched successfully", users: users });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong, unable to fetch all the users",
+      error: error.message,
+    });  }
+};
