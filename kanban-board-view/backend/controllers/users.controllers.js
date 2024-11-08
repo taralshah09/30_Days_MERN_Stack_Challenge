@@ -6,25 +6,38 @@ export const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    // Check if required fields are provided
+    if (!name || !email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Name, email, and password are required." });
+    }
 
-    if (user) {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(401).json({ message: "User already exists" });
     }
+
+    // Generate salt and hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = new User({ name, email, password: hashedPassword });
 
-    if (!newUser) {
-      return res.status(400).json({ message: "Unable to register the user!" });
-    }
+    // Create and save new user
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
-    let token = await createAndSaveToken(newUser._id, res);
-    // console.log("Token : ", token);
-    return res
-      .status(200)
-      .json({ message: "User registered successfully", user: newUser });
+
+    // Generate JWT token
+    const token = await createAndSaveToken(newUser._id, res);
+    console.log("Generated Token:", token);
+
+    return res.status(200).json({
+      message: "User registered successfully",
+      user: newUser,
+      token: token,
+    });
   } catch (error) {
+    console.error("Error in createUser:", error.message);
     return res.status(500).json({
       message: "Something went wrong, unable to register the new user",
       error: error.message,
@@ -88,5 +101,6 @@ export const fetchAllUsers = async (req, res) => {
     return res.status(500).json({
       message: "Something went wrong, unable to fetch all the users",
       error: error.message,
-    });  }
+    });
+  }
 };

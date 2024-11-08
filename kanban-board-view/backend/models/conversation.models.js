@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const conversationSchema = new mongoose.Schema({
+  title:{
+    type:String,
+    required:true
+  },
   access_code: {
     type: String,
     unique: true,

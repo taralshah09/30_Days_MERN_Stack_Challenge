@@ -5,6 +5,7 @@ import {
   getAllTasks,
   getTask,
   updateTask,
+  moveTask,
 } from "../controllers/tasks.controllers.js";
 import { authUser } from "../middlewares/users.middlewares.js";
 const router = express.Router();
@@ -14,5 +15,6 @@ router.get("/:id", authUser, getTask);
 router.post("/create", authUser, createTask);
 router.delete("/:id", authUser, deleteTask);
 router.patch("/:id", authUser, updateTask);
+// router.put("/:taskId/move", moveTask);
 
 export { router };

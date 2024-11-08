@@ -101,3 +101,52 @@ export const updateTask = async (req, res) => {
       .json({ message: "Error updating task", error: error.message });
   }
 };
+
+export const moveTask = async (req, res) => {
+  const { taskId } = req.params;
+  const { destinationBoardId, destinationIndex } = req.body;
+
+  try {
+    // Find the task by ID
+    const task = await Task.findById(taskId);
+    if (!task) return res.status(404).json({ message: "Task not found" });
+
+    // Find the board currently containing the task
+    const sourceBoard = await Board.findOne({ tasks: taskId });
+    if (!sourceBoard)
+      return res.status(404).json({ message: "Source board not found" });
+
+    // If the task is moving to a different board
+    if (sourceBoard._id.toString() !== destinationBoardId) {
+      // Remove task from the source board's tasks array
+      await Board.findByIdAndUpdate(sourceBoard._id, {
+        $pull: { tasks: taskId },
+      });
+
+      // Add task to the destination board at specified position
+      await Board.findByIdAndUpdate(destinationBoardId, {
+        $push: { tasks: { $each: [taskId], $position: destinationIndex } },
+      });
+
+      // Update task's board reference (optional: depends on your app structure)
+      task.boardId = destinationBoardId;
+      await task.save();
+    } else {
+      // Task is being reordered within the same board
+      await Board.findByIdAndUpdate(destinationBoardId, {
+        $pull: { tasks: taskId },
+      });
+
+      await Board.findByIdAndUpdate(destinationBoardId, {
+        $push: { tasks: { $each: [taskId], $position: destinationIndex } },
+      });
+    }
+
+    res.status(200).json({ message: "Task moved successfully", task });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while moving the task" });
+  }
+};
