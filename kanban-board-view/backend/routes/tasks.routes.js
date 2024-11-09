@@ -5,7 +5,6 @@ import {
   getAllTasks,
   getTask,
   updateTask,
-  moveTask,
 } from "../controllers/tasks.controllers.js";
 import { authUser } from "../middlewares/users.middlewares.js";
 const router = express.Router();

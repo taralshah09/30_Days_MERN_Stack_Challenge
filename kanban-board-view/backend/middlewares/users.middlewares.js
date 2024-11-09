@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 export const authUser = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
-    console.log("Middleware : ", token);
+    // console.log("Middleware : ", token);
 
     if (!token) {
       return res.status(400).json({ message: "User not authenticated" }); // Ensure response sent once

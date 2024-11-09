@@ -19,7 +19,7 @@ router.get("/", getAllConversation);
 
 router.get("/:id", authUser, getConversation);
 
-router.patch("/:id", authUser, updateConversation);
+router.put("/:id", authUser, updateConversation);
 
 router.delete("/:id", authUser, deleteConversation);
 
@@ -30,6 +30,8 @@ router.post("/:id/boards", addBoardInconversation);
 router.put("/:conversationId/boards/:boardId", updateBoardInConversation);
 
 // DELETE - Remove a board from a conversation
-router.delete("/:conversationId/boards/:boardId", deleteBoardFromConversation);
+// router.delete("/:conversationId/boards/:boardId", deleteBoardFromConversation);
+
+router.delete('/:id/boards/:boardId', deleteBoardFromConversation);
 
 export { router };

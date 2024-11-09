@@ -41,20 +41,36 @@ export const getConversation = async (req, res) => {
   }
 };
 
+// export const updateConversation = async (req, res) => {
+//   try {
+//     const { access_code, password, boards, users, title } = req.body;
+//     const conversation = await Conversation.findByIdAndUpdate(
+//       req.params.id,
+//       { access_code, password, boards, users, title },
+//       { new: true }
+//     );
+//     if (!conversation) {
+//       return res.status(404).json({ message: "Conversation not found" });
+//     }
+//     res.json(conversation);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
 export const updateConversation = async (req, res) => {
+  const { id } = req.params;
+  const updatedData = req.body;
+
   try {
-    const { access_code, password, boards, users, title } = req.body;
-    const conversation = await Conversation.findByIdAndUpdate(
-      req.params.id,
-      { access_code, password, boards, users, title },
-      { new: true }
+    const updatedConversation = await Conversation.findByIdAndUpdate(
+      id,
+      updatedData
     );
-    if (!conversation) {
-      return res.status(404).json({ message: "Conversation not found" });
-    }
-    res.json(conversation);
+    console.log(updatedConversation);
+    res.status(200).json(updatedConversation);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Error updating conversation", error });
   }
 };
 
@@ -137,20 +153,28 @@ export const updateBoardInConversation = async (req, res) => {
 };
 
 export const deleteBoardFromConversation = async (req, res) => {
+  const { id, boardId } = req.params;
+
   try {
-    const { conversationId, boardId } = req.params;
+    // Find the conversation and remove the board from its boards array
+    const conversation = await Conversation.findById(id);
+    if (!conversation) {
+      return res.status(404).json({ message: "Conversation not found" });
+    }
 
     // Remove the board from the conversation's boards array
-    await Conversation.findByIdAndUpdate(conversationId, {
-      $pull: { boards: boardId },
-    });
+    conversation.boards = conversation.boards.filter(
+      (board) => board.toString() !== boardId
+    );
 
-    // Delete the board document itself
-    await Board.findByIdAndDelete(boardId);
+    // Save the updated conversation
+    await conversation.save();
 
-    res.json({ message: "Board deleted successfully" });
+    res
+      .status(200)
+      .json({ message: "Board deleted successfully", conversation });
   } catch (error) {
-    res.status(500).json({ message: "Failed to delete board", error });
+    console.error("Error deleting board from conversation:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
-

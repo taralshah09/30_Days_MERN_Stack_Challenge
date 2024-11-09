@@ -5,6 +5,7 @@ import {
   updateTaskOrder,
   deleteBoard,
   addTaskToBoard,
+  updateBoard,
 } from "../controllers/boards.controllers.js";
 import { authUser } from "../middlewares/users.middlewares.js";
 
@@ -14,12 +15,10 @@ router.post("/", authUser, createBoard);
 
 router.get("/:id", authUser, getBoard);
 
-router.patch("/:id", authUser, updateTaskOrder);
+router.put("/:id", authUser, updateBoard);
 
 router.delete(":id", authUser, deleteBoard);
 
 router.post("/:id/tasks", authUser, addTaskToBoard);
-
-
 
 export { router };

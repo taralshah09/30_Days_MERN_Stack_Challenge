@@ -57,12 +57,14 @@ export const addTaskToBoard = async (req, res) => {
     const { id } = req.params; // Board ID
     const { title } = req.body; // Task title
     const createdBy = req.user._id;
-    
-    // Step 1: Create a new task
+
+    if (!title || title.trim().length === 0) {
+      return res.status(400).json({ message: "Task title is required" });
+    }
+
     const newTask = new Task({ title, createdBy });
     await newTask.save();
 
-    // Step 2: Find the board and add the new task's ID to the tasks array
     const board = await Board.findById(id);
     if (!board) {
       return res.status(404).json({ message: "Board not found" });
@@ -71,10 +73,61 @@ export const addTaskToBoard = async (req, res) => {
     board.tasks.push(newTask._id);
     await board.save();
 
-    // Step 3: Respond with the new task
     res.status(201).json(newTask);
   } catch (error) {
-    console.error("Error adding task:", error);
-    res.status(500).json({ message: "Failed to add task", error });
+    console.error("Error adding task:", error.message || error);
+    
+    res.status(500).json({
+      message: "Failed to add task",
+      error: error.message || error,
+    });
+  }
+};
+
+// // Update board tasks controller
+// export const updateBoard = async (req, res) => {
+//   const boardId  = req.params.id; // Get board ID from URL params
+//   const { tasks } = req.body; // Get updated tasks array from request body
+
+//   try {
+//     // Find the board by ID and update the tasks array
+//     const updatedBoard = await Board.findByIdAndUpdate(
+//       boardId,
+//       { tasks }, // Update the tasks field
+//       { new: true } // Return the updated document
+//     );
+
+//     // Check if board exists
+//     if (!updatedBoard) {
+//       return res.status(404).json({ message: "Board not found" });
+//     }
+
+//     // Send back the updated board
+//     res.status(200).json(updatedBoard);
+//   } catch (error) {
+//     console.error("Error updating board:", error);
+//     res.status(500).json({ message: "Failed to update board tasks", error });
+//   }
+// };
+
+export const updateBoard = async (req, res) => {
+  const boardId = req.params.id;
+  const { title, tasks } = req.body;
+
+  try {
+    // Find the board and update it
+    const updatedBoard = await Board.findByIdAndUpdate(
+      boardId,
+      { title, tasks },
+      { new: true }
+    );
+
+    if (!updatedBoard) {
+      return res.status(404).json({ message: "Board not found" });
+    }
+
+    res.json(updatedBoard); // Send back the updated board
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
