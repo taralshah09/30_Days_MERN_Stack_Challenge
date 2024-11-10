@@ -1,7 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { useAuth } from '../context/AuthProvider';
+
 
 const Conversation = () => {
     const { id } = useParams();
@@ -14,6 +16,11 @@ const Conversation = () => {
     const [editingBoardId, setEditingBoardId] = useState(null);
     const [editedTitle, setEditedTitle] = useState('');
     const [board, setBoard] = useState({})
+    const [hoveredTask, setHoveredTask] = useState(null); // Track hovered task ID
+    const [users, setUsers] = useState([])
+    const [searchUser, setSearchUser] = useState("")
+    const [authUser, setAuthUser] = useAuth()
+    // const [addMembersModal,setAddMembersModal] = useState(false)
 
     useEffect(() => {
         const fetchConversation = async () => {
@@ -25,7 +32,34 @@ const Conversation = () => {
             }
         };
         fetchConversation();
+
     }, [id]);
+
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const res = await axios.get("http://localhost:3000/users/all");
+                const usersArray = res.data.users;
+
+                // Filter out users who are not already in the conversation's users array
+                const filteredUsers = usersArray.filter(user =>
+                    user._id !== conversation.createdBy._id &&
+                    !conversation.users.some(convoUser => convoUser._id === user._id)
+                );
+
+                // Update state with filtered users
+                setUsers(filteredUsers);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+
+        fetchUsers();
+    }, [conversation, conversation?.users]);
+
+
+
 
     const handleAddBoard = async (e) => {
         e.preventDefault();
@@ -158,12 +192,128 @@ const Conversation = () => {
     };
 
 
+    // const handleDeleteTask = (task) => {
+    //     const updatedBoards = conversation.boards.map((board) => {
+    //         // Check if the board contains the task
+    //         if (board.tasks.some(t => t._id === task._id)) {
+    //             // Create a new tasks array excluding the task to be deleted
+    //             return {
+    //                 ...board,
+    //                 tasks: board.tasks.filter((t) => t._id !== task._id),
+    //             };
+    //         }
+    //         return board;
+    //     });
+
+    //     // Update the conversation state with the updated boards
+    //     setConversation({ ...conversation, boards: updatedBoards });
+    // };
+
+    // const handleDeleteTask = async (task, boardId) => {
+    //     try {
+    //         // Send DELETE request to the backend
+    //         await axios.delete(`http://localhost:3000/conversations/${id}/boards/${boardId}/tasks/${task._id}`, {
+    //             withCredentials: true,
+    //         });
+
+    //         // If successful, update the conversation state to remove the task locally
+    //         const updatedBoards = conversation.boards.map((board) => {
+    //             if (board._id === boardId) {
+    //                 // Filter out the task from the board's tasks
+    //                 return {
+    //                     ...board,
+    //                     tasks: board.tasks.filter((t) => t._id !== task._id),
+    //                 };
+    //             }
+    //             return board;
+    //         });
+
+    //         // Update conversation state to reflect the deletion
+    //         setConversation({ ...conversation, boards: updatedBoards });
+    //     } catch (error) {
+    //         console.error("Error deleting task:", error.message);
+    //     }
+    // };
+
+    // Frontend handleDeleteTask function
+    // const handleDeleteTask = async (boardId, task) => {
+    //     try {
+    //         const updatedBoards = conversation.boards.map(board =>
+    //             board._id === boardId
+    //                 ? { ...board, tasks: board.tasks.filter(t => t._id !== task._id) }
+    //                 : board
+    //         );
+    //         setConversation({ ...conversation, boards: updatedBoards });
+
+    //         // Backend API call with boardId as a string
+    //         await axios.delete(`http://localhost:3000/boards/${boardId}/tasks/${task._id}`, { withCredentials: true });
+    //     } catch (error) {
+    //         console.error('Error deleting task:', error);
+    //     }
+    // };
+
+
+    const handleAddUser = async (user) => {
+        console.log("Added user : " + user._id)
+        try {
+            const res = await axios.patch(`http://localhost:3000/conversations/${id}`, { user }, { withCredentials: true })
+            console.log(res.data.message)
+        } catch (error) {
+            console.log("Error in adding user to the conversation : " + error.message)
+        }
+    }
 
     return (
-        <div className="w-full min-h-screen flex items-center justify-center">
-            <div className="w-[70%] h-auto flex-col border shadow-md rounded-lg p-5">
-                <h1 className="text-2xl font-bold">{conversation?.title}</h1>
-                <p className="text-gray-600">Access Code: {conversation?.access_code}</p>
+        <div className="w-full min-h-screen flex items-center justify-center bg-white">
+            <div className="w-[70%] h-auto flex-col border shadow-md rounded-lg p-5 text-black">
+                <div className='flex items-center justify-between'>
+                    <div className='flex-col'>
+                        <h1 className="text-2xl font-bold">{conversation?.title}</h1>
+                        <p className="text-gray-600">Access Code: {conversation?.access_code}</p>
+                    </div>
+                    <button className="px-5 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600" onClick={() => document.getElementById('my_modal_2').showModal()}>Add Members</button>
+                    <dialog id="my_modal_2" className="modal">
+                        <div className="modal-box bg-white shadow-2xl">
+                            <h3 className="font-bold text-lg mb-4">Add Members to this Conversation:</h3>
+
+                            <input
+                                type="text"
+                                className="bg-gray-100 w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                placeholder="Enter the username or email"
+                                value={searchUser}
+                                onChange={(e) => setSearchUser(e.target.value)}
+                            />
+
+                            <div className="w-full h-auto max-h-60 overflow-y-auto">
+                                {users
+                                    .filter((user) =>
+                                        user.name.toLowerCase().includes(searchUser.toLowerCase()) ||
+                                        user.email.toLowerCase().includes(searchUser.toLowerCase())
+                                    )
+                                    .map((user) => (
+                                        <div key={user._id} className="flex items-center p-2 hover:bg-gray-200 transition rounded-lg">
+                                            <img src={"../images/user-image.png"} alt="User" className="w-8 h-8 rounded-full mr-3" />
+                                            <div className="flex-grow">
+                                                <p className="font-semibold text-gray-700">{user.name}</p>
+                                                <p className="text-sm text-gray-500">{user.email}</p>
+                                            </div>
+                                            <button
+                                                className="text-blue-500 font-semibold text-sm px-3 py-1 bg-gray-100 rounded-full hover:bg-blue-100 transition"
+                                                onClick={() => handleAddUser(user)}
+                                            >
+                                                Add
+                                            </button>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                            <span className='text-center text-sm  text-gray-400'> Press Esc to close the modal</span>
+                        </div>
+
+                    </dialog>
+
+
+                </div>
 
                 <form className="mt-5">
                     <input
@@ -171,7 +321,7 @@ const Conversation = () => {
                         placeholder="New board title"
                         value={newBoardTitle}
                         onChange={(e) => setNewBoardTitle(e.target.value)}
-                        className="border p-2 rounded w-full mb-3"
+                        className="border p-2 rounded w-full mb-3 shadow-md bg-white"
                     />
                     <button type="submit" onClick={handleAddBoard} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                         Add Board
@@ -199,7 +349,7 @@ const Conversation = () => {
                                                     type="text"
                                                     value={editedTitle}
                                                     onChange={(e) => setEditedTitle(e.target.value)}
-                                                    className="border p-1 rounded w-full"
+                                                    className="border p-1 rounded w-full bg-white"
                                                 />
                                             ) : (
                                                 <h2 className="text-xl font-semibold">{board.title}</h2>
@@ -245,12 +395,14 @@ const Conversation = () => {
                                                 placeholder="New task title"
                                                 value={newTaskTitle}
                                                 onChange={(e) => setNewTaskTitle(e.target.value)}
-                                                className="border p-2 rounded w-full"
+                                                className="border p-2 rounded w-full bg-white"
                                             />
-                                            <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                                                Add Task
+                                            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 duration-200">
+                                                Add
                                             </button>
                                         </form>
+
+
 
                                         <div className="flex flex-col gap-3 mt-3">
                                             {board.tasks.map((task, index) => (
@@ -260,15 +412,28 @@ const Conversation = () => {
                                                             ref={provided.innerRef}
                                                             {...provided.draggableProps}
                                                             {...provided.dragHandleProps}
-                                                            className="border p-2 rounded bg-gray-100"
+                                                            className="task border p-2 rounded bg-gray-100 flex justify-between items-center"
+                                                            onMouseEnter={() => setHoveredTask(task._id)}
+                                                            onMouseLeave={() => setHoveredTask(null)}
                                                         >
                                                             <p>{task.title}</p>
+
+                                                            {/* Icons */}
+                                                            {/* <div className={`task-icons ${hoveredTask === task._id ? 'visible' : ''}`}>
+
+
+                                                                <i
+                                                                    className="fa-solid fa-trash cursor-pointer"
+                                                                    onClick={() => handleDeleteTask(board.tasks[0].title, task)}
+                                                                ></i>
+                                                            </div> */}
                                                         </div>
                                                     )}
                                                 </Draggable>
                                             ))}
                                             {provided.placeholder}
                                         </div>
+
                                     </div>
                                 )}
                             </Droppable>

@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation, Link } from 'react-router-dom'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import { useAuth } from './context/AuthProvider'
@@ -25,9 +25,11 @@ function App() {
     <>
       {showNavbar && (
         <nav className="navbar bg-gray-800 text-white px-6 py-4 flex items-center justify-between">
+          <Link to="/conversation-home">
           <h2 className="text-2xl font-semibold">Tasker</h2>
+          </Link>
           <ul className="flex items-center space-x-6">
-            <li className="text-lg">{authUser.username}</li>
+            <li className="text-lg">{authUser?.name}</li>
             <li>
               <button className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded">
                 Logout

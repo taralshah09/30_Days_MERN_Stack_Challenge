@@ -8,3 +8,18 @@
   box-sizing: border-box;
   font-family: "Outfit", serif;
 }
+
+.task {
+  position: relative;
+}
+
+.task-icons {
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  color: gray;
+}
+
+.task:hover .task-icons {
+  opacity: 1;
+}

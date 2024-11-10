@@ -8,6 +8,8 @@ import {
   addBoardInconversation,
   updateBoardInConversation,
   deleteBoardFromConversation,
+  deleteTask,
+  addUserInConversation,
 } from "../controllers/conversation.controllers.js";
 import { authUser } from "../middlewares/users.middlewares.js";
 
@@ -23,15 +25,14 @@ router.put("/:id", authUser, updateConversation);
 
 router.delete("/:id", authUser, deleteConversation);
 
-// Adding board within the conversation
 router.post("/:id/boards", addBoardInconversation);
 
-// PUT - Update a board within a conversation
-router.put("/:conversationId/boards/:boardId", updateBoardInConversation);
+router.patch("/:conversationId/boards/:boardId", updateBoardInConversation);
 
-// DELETE - Remove a board from a conversation
-// router.delete("/:conversationId/boards/:boardId", deleteBoardFromConversation);
+router.delete("/:id/boards/:boardId", deleteBoardFromConversation);
 
-router.delete('/:id/boards/:boardId', deleteBoardFromConversation);
+// router.delete("/:conversationId/boards/:boardId/tasks/:taskId", deleteTask);
+
+router.patch("/:id", addUserInConversation);
 
 export { router };

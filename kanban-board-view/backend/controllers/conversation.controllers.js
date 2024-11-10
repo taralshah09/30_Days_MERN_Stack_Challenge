@@ -178,3 +178,54 @@ export const deleteBoardFromConversation = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// Controller function to delete a task
+export const deleteTask = async (req, res) => {
+  // const { conversationId, boardId, taskId } = req.params;
+  // try {
+  //     // Step 1: Find the board by ID and remove the task from the tasks array
+  //     const board = await Board.findById({boardId});
+  //     if (!board) {
+  //         return res.status(404).json({ error: 'Board not found' });
+  //     }
+  //     // Remove the task from the board's tasks array
+  //     board.tasks = board.tasks.filter((task) => task.toString() !== taskId);
+  //     await board.save();
+  //     // Step 2: Find the conversation and update the boards array
+  //     const conversation = await Conversation.findById(conversationId).populate('boards');
+  //     if (!conversation) {
+  //         return res.status(404).json({ error: 'Conversation not found' });
+  //     }
+  //     // Update the conversation's boards array to ensure it reflects the updated board
+  //     conversation.boards = conversation.boards.map((b) => (b._id.toString() === boardId ? board : b));
+  //     await conversation.save();
+  //     // Send success response
+  //     res.status(200).json({ message: 'Task deleted successfully', conversation });
+  // } catch (error) {
+  //     console.error('Error deleting task:', error);
+  //     res.status(500).json({ error: 'Failed to delete task' });
+  // }
+};
+
+export const addUserInConversation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user } = req.body;
+
+    const conversation = await Conversation.findById(id);
+
+    if (!conversation) {
+      return res.status(404).json({ message: "No such conversation found!" });
+    }
+
+    conversation.users.push(user._id);
+    await conversation.save();
+
+    return res
+      .status(200)
+      .json({ message: "User added successfully to the conversation" });
+  } catch (error) {
+    console.error("Error adding user in the conversation :", error.message);
+    res.status(500).json({ error: "Failed to add user in the conversation" });
+  }
+};
