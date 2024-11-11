@@ -87,7 +87,7 @@ export const updateTask = async (req, res) => {
         assignedTo,
         markAsDone,
       },
-      { new: true, runValidators: true }
+      { new: true }
     );
 
     if (!updatedTask) {

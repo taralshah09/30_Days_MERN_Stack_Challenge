@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useAuth } from '../context/AuthProvider';
 
@@ -100,8 +100,6 @@ const Conversation = () => {
         }
     };
 
-
-
     const handleDragEnd = async (result) => {
         const { source, destination } = result;
         if (!destination) return;
@@ -137,7 +135,6 @@ const Conversation = () => {
             console.error("Error updating boards and conversation:", error.message);
         }
     };
-
 
     const handleIconClick = (boardId) => {
         setDropdownOpen(dropdownOpen === boardId ? null : boardId);
@@ -191,68 +188,6 @@ const Conversation = () => {
         }
     };
 
-
-    // const handleDeleteTask = (task) => {
-    //     const updatedBoards = conversation.boards.map((board) => {
-    //         // Check if the board contains the task
-    //         if (board.tasks.some(t => t._id === task._id)) {
-    //             // Create a new tasks array excluding the task to be deleted
-    //             return {
-    //                 ...board,
-    //                 tasks: board.tasks.filter((t) => t._id !== task._id),
-    //             };
-    //         }
-    //         return board;
-    //     });
-
-    //     // Update the conversation state with the updated boards
-    //     setConversation({ ...conversation, boards: updatedBoards });
-    // };
-
-    // const handleDeleteTask = async (task, boardId) => {
-    //     try {
-    //         // Send DELETE request to the backend
-    //         await axios.delete(`http://localhost:3000/conversations/${id}/boards/${boardId}/tasks/${task._id}`, {
-    //             withCredentials: true,
-    //         });
-
-    //         // If successful, update the conversation state to remove the task locally
-    //         const updatedBoards = conversation.boards.map((board) => {
-    //             if (board._id === boardId) {
-    //                 // Filter out the task from the board's tasks
-    //                 return {
-    //                     ...board,
-    //                     tasks: board.tasks.filter((t) => t._id !== task._id),
-    //                 };
-    //             }
-    //             return board;
-    //         });
-
-    //         // Update conversation state to reflect the deletion
-    //         setConversation({ ...conversation, boards: updatedBoards });
-    //     } catch (error) {
-    //         console.error("Error deleting task:", error.message);
-    //     }
-    // };
-
-    // Frontend handleDeleteTask function
-    // const handleDeleteTask = async (boardId, task) => {
-    //     try {
-    //         const updatedBoards = conversation.boards.map(board =>
-    //             board._id === boardId
-    //                 ? { ...board, tasks: board.tasks.filter(t => t._id !== task._id) }
-    //                 : board
-    //         );
-    //         setConversation({ ...conversation, boards: updatedBoards });
-
-    //         // Backend API call with boardId as a string
-    //         await axios.delete(`http://localhost:3000/boards/${boardId}/tasks/${task._id}`, { withCredentials: true });
-    //     } catch (error) {
-    //         console.error('Error deleting task:', error);
-    //     }
-    // };
-
-
     const handleAddUser = async (user) => {
         console.log("Added user : " + user._id)
         try {
@@ -263,6 +198,7 @@ const Conversation = () => {
         }
     }
 
+    console.log(conversation)
     return (
         <div className="w-full min-h-screen flex items-center justify-center bg-white">
             <div className="w-[70%] h-auto flex-col border shadow-md rounded-lg p-5 text-black">
@@ -408,26 +344,19 @@ const Conversation = () => {
                                             {board.tasks.map((task, index) => (
                                                 <Draggable key={task._id} draggableId={task._id} index={index}>
                                                     {(provided) => (
-                                                        <div
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                            className="task border p-2 rounded bg-gray-100 flex justify-between items-center"
-                                                            onMouseEnter={() => setHoveredTask(task._id)}
-                                                            onMouseLeave={() => setHoveredTask(null)}
-                                                        >
-                                                            <p>{task.title}</p>
+                                                        <Link to={`/conversations/${id}/tasks/${task._id}`} state={{ conversation }}>
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                className="task border p-2 rounded bg-gray-100 flex justify-between items-center"
+                                                                onMouseEnter={() => setHoveredTask(task._id)}
+                                                                onMouseLeave={() => setHoveredTask(null)}
+                                                            >
+                                                                <p>{task.title}</p>
 
-                                                            {/* Icons */}
-                                                            {/* <div className={`task-icons ${hoveredTask === task._id ? 'visible' : ''}`}>
-
-
-                                                                <i
-                                                                    className="fa-solid fa-trash cursor-pointer"
-                                                                    onClick={() => handleDeleteTask(board.tasks[0].title, task)}
-                                                                ></i>
-                                                            </div> */}
-                                                        </div>
+                                                            </div>
+                                                        </Link>
                                                     )}
                                                 </Draggable>
                                             ))}

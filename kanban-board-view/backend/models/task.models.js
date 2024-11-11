@@ -23,6 +23,10 @@ const taskSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  description: {
+    type: String,
+    default: "",
+  },
 });
 
 export const Task = mongoose.model("Task", taskSchema);

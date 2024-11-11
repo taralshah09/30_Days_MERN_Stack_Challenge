@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 
 router.post("/register", createUser);
 router.post("/login", loginUser);
-router.post("/logout", authUser, logoutUser);
+router.post("/logout",  logoutUser);
 router.get("/all", fetchAllUsers);
 
 export { router };
