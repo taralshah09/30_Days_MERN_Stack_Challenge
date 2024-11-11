@@ -89,11 +89,9 @@ export const updateTask = async (req, res) => {
       },
       { new: true }
     );
-
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
-
     res.status(200).json(updatedTask);
   } catch (error) {
     res
@@ -102,5 +100,3 @@ export const updateTask = async (req, res) => {
   }
 };
 
-
-  

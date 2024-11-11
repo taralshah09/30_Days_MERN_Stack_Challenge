@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
 
 const TaskPage = () => {
     const { taskId, conversationId } = useParams();
@@ -13,10 +12,10 @@ const TaskPage = () => {
         assignedTo: [],
         markAsDone: false,
     });
-    const [newAssignedTo, setNewAssignedTo] = useState('');
-    const location = useLocation()
-    const navigate = useNavigate("")
-    const { conversation } = location.state
+    const [newAssignedTo, setNewAssignedTo] = useState("");
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { conversation } = location.state;
 
     useEffect(() => {
         const fetchTask = async () => {
@@ -24,7 +23,7 @@ const TaskPage = () => {
                 const res = await axios.get(`http://localhost:3000/tasks/${taskId}`, { withCredentials: true });
                 setTask(res.data.task);
             } catch (error) {
-                console.log("Error : " + error.message);
+                console.log("Error: " + error.message);
             }
         };
         fetchTask();
@@ -39,21 +38,21 @@ const TaskPage = () => {
     };
 
     const handleAddAssignee = () => {
-        if (newAssignedTo) {
+        if (newAssignedTo.trim()) {
             setTask((prev) => ({
                 ...prev,
-                assignedTo: [...prev.assignedTo, newAssignedTo],
+                assignedTo: [...prev.assignedTo, newAssignedTo],  // Add all new assignees at once
             }));
-            setNewAssignedTo('');
+            setNewAssignedTo();
         }
     };
 
-
     const handleUpdateTask = async () => {
         try {
-            await axios.patch(`http://localhost:3000/tasks/${taskId}`, task, { withCredentials: true });
+            console.log("Updating task:", task);  // Log to verify task state
+            await axios.put(`http://localhost:3000/tasks/${taskId}`, task, { withCredentials: true });
             alert("Task updated successfully!");
-            navigate(`/conversation/${conversationId}`)
+            navigate(`/conversation/${conversationId}`);
         } catch (error) {
             console.log("Error updating task: " + error.message);
         }
@@ -76,11 +75,12 @@ const TaskPage = () => {
         }));
     };
 
-    
-
     return (
         <div className='w-full min-h-[90vh] flex items-center justify-center bg-white'>
-            <div className="w-[70%] min-h-[400px] mx-auto p-6 bg-white shadow-xl rounded-lg mt-8">
+            <div className="relative w-[70%] min-h-[400px] mx-auto p-6 bg-white shadow-xl rounded-lg mt-8">
+                <div className='absolute right-6 '>
+                    <Link className='text-blue-500 hover:underline ' to={`/conversation/${conversationId}`}>Back to conversation</Link>
+                </div>
                 <label className="block mb-4">
                     <span className="text-gray-700">Title:</span>
                     <input

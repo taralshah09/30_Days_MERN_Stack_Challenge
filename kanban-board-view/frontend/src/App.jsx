@@ -50,8 +50,8 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/conversation-home' element={authUser ? <ConversationHome /> : <Navigate to="/login" />} />
-        <Route path='/' element={authUser ? <Home /> : <Navigate to="/login" />} />
+        <Route path='/conversation-home' index element={authUser ? <ConversationHome /> : <Navigate to="/login" />} />
+        {/* <Route path='/' element={authUser ? <Home /> : <Navigate to="/login" />} /> */}
         <Route path="/conversation/:id" element={authUser ? <Conversation /> : <Navigate to="/login" />} />
         <Route path="/conversations/:conversationId/tasks/:taskId" element={authUser ? <TaskPage /> : <Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/login" />} /> {/* Fallback route */}
