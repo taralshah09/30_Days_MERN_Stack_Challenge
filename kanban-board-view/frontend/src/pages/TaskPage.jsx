@@ -17,17 +17,34 @@ const TaskPage = () => {
     const navigate = useNavigate();
     const { conversation } = location.state;
 
+    // useEffect(() => {
+    //     const fetchTask = async () => {
+    //         try {
+    //             const res = await axios.get(`http://localhost:3000/tasks/${taskId}`, { withCredentials: true });
+    //             setTask(res.data.task);
+    //         } catch (error) {
+    //             console.log("Error: " + error.message);
+    //         }
+    //     };
+    //     fetchTask();
+    // }, [taskId]);
+
     useEffect(() => {
         const fetchTask = async () => {
             try {
                 const res = await axios.get(`http://localhost:3000/tasks/${taskId}`, { withCredentials: true });
-                setTask(res.data.task);
+                // Ensure assignedTo is a flat array
+                setTask({
+                    ...res.data.task,
+                    assignedTo: Array.isArray(res.data.task.assignedTo) ? res.data.task.assignedTo.flat() : [],
+                });
             } catch (error) {
                 console.log("Error: " + error.message);
             }
         };
         fetchTask();
     }, [taskId]);
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -37,13 +54,23 @@ const TaskPage = () => {
         }));
     };
 
+    // const handleAddAssignee = () => {
+    //     if (newAssignedTo.trim()) {
+    //         setTask((prev) => ({
+    //             ...prev,
+    //             assignedTo: [...prev.assignedTo, newAssignedTo],  // Add all new assignees at once
+    //         }));
+    //         setNewAssignedTo("");
+    //     }
+    // };
+
     const handleAddAssignee = () => {
         if (newAssignedTo.trim()) {
             setTask((prev) => ({
                 ...prev,
-                assignedTo: [...prev.assignedTo, newAssignedTo],  // Add all new assignees at once
+                assignedTo: [...prev.assignedTo, newAssignedTo.trim()], // Ensure no nesting and trim the value
             }));
-            setNewAssignedTo();
+            setNewAssignedTo("");
         }
     };
 

@@ -13,14 +13,10 @@ const taskSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  assignedTo: [
-    {
-      // type: mongoose.Schema.Types.ObjectId,
-      // ref: "User",
-      type:[String],
-      default:""
-    },
-  ],
+  assignedTo: {
+    type: [String],
+    default: "",
+  },
   markAsDone: {
     type: Boolean,
     default: false,
